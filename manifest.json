@@ -1,0 +1,40 @@
+{
+  "name": "giosg Live extension",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "This extension is intended to be used with giosg Live chat. It toggles operator state automatically offline when computer goes to locked or idle state.",
+  "homepage_url": "http://giosg.com",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "default_locale": "en",
+  "background": {
+    "scripts": [
+      "src/bg/background.js"
+    ],
+    "persistent": true
+  },
+  "externally_connectable": {
+    "matches": []
+  },
+  "options_page": "src/options_custom/index.html",
+  "permissions": [
+    "idle",
+    "notifications",
+    "tabs",
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "src/inject/inject.js"
+      ]
+    }
+  ]
+}
