@@ -20,7 +20,7 @@ giosg Live chat extension. By using this Chrome extension you can automatically 
 	- There is also Advanced settings for developers but it is not recommended to change those if you are not really sure what you are doing.
 
 2. Usage
-	- You can continue using giosg Live normally. From this point on this extension ensures that you are not left to online state by accident
+	- You can continue using giosg Live normally. From this point on this extension ensures that you are not left to online state by accident!
 	- Operator will be set to offline state when computer has been idle longer than configured idle timeout. 
 	- Also if screensaver is activated or computer is locked (CTRL+ALT+DELETE), operator will be set offline.
 
