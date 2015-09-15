@@ -1,60 +1,60 @@
+var settings_store = new Store("settings");
+
 window.addEvent("domready", function () {
     // Option 1: Use the manifest:
     new FancySettings.initWithManifest(function (settings) {
-        settings.manifest.myButton.addEvent("action", function () {
-            alert("You clicked me!");
+        setHosts(settings.manifest.allowedHostsList);
+
+        settings.manifest.addHostBtn.addEvent("action", function () {
+            addHost(settings.manifest.allowedHostsList, settings.manifest.addHostText.element.value, true);
+        });
+
+        settings.manifest.removeHostBtn.addEvent("action", function () {
+            removeHost(settings.manifest.allowedHostsList, true);
         });
     });
-    
-    // Option 2: Do everything manually:
-    /*
-    var settings = new FancySettings("My Extension", "icon.png");
-    
-    var username = settings.create({
-        "tab": i18n.get("information"),
-        "group": i18n.get("login"),
-        "name": "username",
-        "type": "text",
-        "label": i18n.get("username"),
-        "text": i18n.get("x-characters")
-    });
-    
-    var password = settings.create({
-        "tab": i18n.get("information"),
-        "group": i18n.get("login"),
-        "name": "password",
-        "type": "text",
-        "label": i18n.get("password"),
-        "text": i18n.get("x-characters-pw"),
-        "masked": true
-    });
-    
-    var myDescription = settings.create({
-        "tab": i18n.get("information"),
-        "group": i18n.get("login"),
-        "name": "myDescription",
-        "type": "description",
-        "text": i18n.get("description")
-    });
-    
-    var myButton = settings.create({
-        "tab": "Information",
-        "group": "Logout",
-        "name": "myButton",
-        "type": "button",
-        "label": "Disconnect:",
-        "text": "Logout"
-    });
-    
-    // ...
-    
-    myButton.addEvent("action", function () {
-        alert("You clicked me!");
-    });
-    
-    settings.align([
-        username,
-        password
-    ]);
-    */
 });
+
+function setHosts(listEl) {
+    if (settings_store.get('allowed_hosts') === undefined) {
+        host_list = DEFAULT_HOSTS;
+    } else {
+        host_list = settings_store.get("allowed_hosts");
+    }
+
+    for (var i = host_list.length - 1; i >= 0; i--) {
+        var host = host_list[i];
+        addHost(listEl, host, false);
+    };
+    saveHosts(listEl.element.options);
+};
+
+function addHost(listEl, new_host, save) {
+    var newEl = new Element("option", {
+        "value": new_host,
+        "text": new_host
+    });
+    newEl.inject(listEl.element);
+
+    if (save) {
+        saveHosts(listEl.element.options);
+    }
+};
+
+function removeHost(listEl, save) {
+    for (var i = listEl.element.selectedOptions.length - 1; i >= 0; i--) {
+        var opt = listEl.element.selectedOptions[i];
+        opt.remove();
+    };
+    if (save) {
+        saveHosts(listEl.element.options);
+    }
+};
+
+function saveHosts(options) {
+    var host_list = [];
+    for (var i = options.length - 1; i >= 0; i--) {
+        host_list.push(options[i].value);
+    };
+    settings_store.set("allowed_hosts", host_list);
+};

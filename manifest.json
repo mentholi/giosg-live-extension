@@ -10,8 +10,11 @@
     "128": "icons/icon128.png"
   },
   "default_locale": "en",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "background": {
     "scripts": [
+      "src/options_custom/default_hosts.js",
+      "src/options_custom/lib/store.js",
       "src/bg/background.js"
     ],
     "persistent": true
@@ -33,6 +36,7 @@
         "https://*/*"
       ],
       "js": [
+        "src/options_custom/default_hosts.js",
         "src/inject/inject.js"
       ]
     }
