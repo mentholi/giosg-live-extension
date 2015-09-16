@@ -6,13 +6,18 @@ function init() {
 };
 
 function onBackgroundMessage(message) {
-  if (message.state == "idle" || message.state == "locked") {
+  if (message.state === "idle" || message.state === "locked") {
     // Store original state so that
     // when computer is active again, we know if
     // we should go to online state.
     ORIGINAL_STATE_ONLINE = (getCurrentState() === "online");
+  }
+
+  if (message.state === "idle" && message.offlineOnlyOnLock === false) {
     setOfflineState();
-  } else {
+  } else if (message.state === "locked") {
+    setOfflineState();
+  } else if (message.state === "active") {
     setActiveState();
   }
 };

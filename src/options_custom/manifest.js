@@ -9,13 +9,20 @@ this.manifest = {
             "name": "idle_timeout",
             "type": "slider",
             "label": "Go offline if computer has been idle for:",
-            "max": 120,
+            "max": 240,
             "min": 15,
             "step": 5,
             "display": true,
             "displayModifier": function (value) {
                 return value + " seconds";
             }
+        },
+        {
+            "tab": "Idle settings",
+            "group": "Timeouts",
+            "name": "only_offline_when_locked",
+            "type": "checkbox",
+            "label": "Go only offline when computer is locked",
         },
         {
             "tab": "Advanced",

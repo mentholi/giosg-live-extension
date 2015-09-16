@@ -1,10 +1,12 @@
 var store = new Store("settings");
 var ALLOWED_HOSTS = [];
 var USER_IDLE_TIMEOUT = 15; // Minimum value accpeted is 15 seconds.
+var OFFLINE_ONLY_WHEN_LOCKED = false;
 
 function init() {
   ALLOWED_HOSTS = getAllowedHosts();
   USER_IDLE_TIMEOUT = store.get('idle_timeout') || 15;
+  OFFLINE_ONLY_WHEN_LOCKED =  store.get('only_offline_when_locked') || false;
   refreshSettingsInterval();
 
   console.log('giosg Live extension started: ', USER_IDLE_TIMEOUT);
@@ -44,7 +46,7 @@ function addIdleListener() {
     function (IdleState) {
 
       // Send notification
-      notifyTabs({ state: IdleState, previous: previousState });
+      notifyTabs({ state: IdleState, previous: previousState, offlineOnlyOnLock: OFFLINE_ONLY_WHEN_LOCKED });
       previousState = IdleState;
     });
 };
@@ -53,7 +55,9 @@ function refreshSettingsInterval() {
   setInterval(function () {
     // Refresh settings
     ALLOWED_HOSTS = getAllowedHosts();
+    OFFLINE_ONLY_WHEN_LOCKED =  store.get('only_offline_when_locked') || false;
     new_timeout = store.get('idle_timeout') || 15;
+
     if (USER_IDLE_TIMEOUT != new_timeout) {
       // Force extension reload if timeout changed.
       window.location.reload();

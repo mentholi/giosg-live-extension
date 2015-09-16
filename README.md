@@ -17,12 +17,15 @@ giosg Live chat extension. By using this Chrome extension you can automatically 
 	- To change settings go to chrome://extensions/
 	- Locate "giosg Live extension" from the list and click options
 	- On the options page you can configure the time how long computer needs to be idle before extension sets operator to offline state.
+	- You can also configure if you want to go offline only when computer is on locked state.
 	- There is also Advanced settings for developers but it is not recommended to change those if you are not really sure what you are doing.
 
 2. Usage
 	- You can continue using giosg Live normally. From this point on this extension ensures that you are not left to online state by accident!
-	- Operator will be set to offline state when computer has been idle longer than configured idle timeout. 
+	- Operator will be set to offline state when computer has been idle longer than configured idle timeout.
 	- Also if screensaver is activated or computer is locked (CTRL+ALT+DELETE), operator will be set offline.
 
-## What is giosg Live? Need support?
+## What is giosg Live?
 **See http://giosg.com/** :)
+
+**NOTE: This is not official giosg product and is not supported by giosg.com Ltd.**
