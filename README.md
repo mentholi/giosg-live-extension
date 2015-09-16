@@ -3,7 +3,7 @@ giosg Live chat extension. By using this Chrome extension you can automatically 
 
 ## Installation
 1. Install current release:
-	- Install extension normally from Chrome Web Store: (link) [not yet :) ]
+	- Install extension normally from Chrome Web Store: https://chrome.google.com/webstore/detail/giosg-live-extension/laddofindnfiobpdkjpcokgieekgoind
 
 2. Install development version.
 	- Clone this repository
