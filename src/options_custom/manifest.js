@@ -1,7 +1,7 @@
 // SAMPLE
 this.manifest = {
     "name": "giosg Live extension",
-    "icon": "icon.png",
+    "icon": "icon48.png",
     "settings": [
         {
             "tab": "Idle settings",
