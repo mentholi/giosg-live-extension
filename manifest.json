@@ -1,6 +1,7 @@
 {
   "name": "giosg Live extension",
-  "version": "0.0.1",
+  "short_name": "giosg Live extension",
+  "version": "0.0.2",
   "manifest_version": 2,
   "description": "Extension for giosg Live chat. It toggles operator state automatically offline when computer goes to locked or idle state.",
   "homepage_url": "https://github.com/mentholi/giosg-live-extension",
