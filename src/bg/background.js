@@ -1,22 +1,27 @@
-var store = new Store("settings");
-var ALLOWED_HOSTS = [];
-var USER_IDLE_TIMEOUT = 15; // Minimum value accpeted is 15 seconds.
-var OFFLINE_ONLY_WHEN_LOCKED = false;
+/**
+* List of allowed hosts where the extension should
+* work. We don't want it to do anything for other sites.
+*/
+var ALLOWED_HOSTS = [
+  "service.giosg.com",
+  "service-staging.giosg.com",
+  "servicetst.giosg.com",
+  "127.0.0.1:8000",
+];
 
+
+/**
+* Initialize
+*/
 function init() {
-  ALLOWED_HOSTS = getAllowedHosts();
-  USER_IDLE_TIMEOUT = store.get('idle_timeout') || 15;
-  OFFLINE_ONLY_WHEN_LOCKED =  store.get('only_offline_when_locked') || false;
-  refreshSettingsInterval();
-
-  console.log('giosg Live extension started: ', USER_IDLE_TIMEOUT);
+  console.log('giosg Live extension started!');
   addIdleListener();
 };
 
-function getAllowedHosts() {
-  return store.get("allowed_hosts") || DEFAULT_HOSTS;
-};
-
+/**
+* Loop all browsers open tabs and send notification if
+* allowed by ALLOWED_HOSTS list.
+*/
 function notifyTabs(message) {
   chrome.tabs.query({}, function(tabs){
     for (var i = tabs.length - 1; i >= 0; i--) {
@@ -26,6 +31,11 @@ function notifyTabs(message) {
   });
 };
 
+/**
+* Checks if current tab url is defined in ALLOWED_HOSTS
+* and if so, then sends message to the message listener on
+* that tab.
+*/
 function sendIfAllowed(tab, message) {
   for (var x = ALLOWED_HOSTS.length - 1; x >= 0; x--) {
     var host = ALLOWED_HOSTS[x];
@@ -35,34 +45,28 @@ function sendIfAllowed(tab, message) {
   };
 };
 
+/**
+* Send message to injected js that listens messages
+* from the extension.
+*/
 function sendMsg(tab, message) {
   chrome.tabs.sendMessage(tab.id, message, function(response) {});
 };
 
+/**
+* Add listener for idle events.
+* Chrome api uses OS apis to decide when
+* user is idle or computer is locked.
+*/
 function addIdleListener() {
   var previousState = "active";
-  chrome.idle.setDetectionInterval(USER_IDLE_TIMEOUT);
+  chrome.idle.setDetectionInterval(60);
   chrome.idle.onStateChanged.addListener(
     function (IdleState) {
-
       // Send notification
-      notifyTabs({ state: IdleState, previous: previousState, offlineOnlyOnLock: OFFLINE_ONLY_WHEN_LOCKED });
+      notifyTabs({ state: IdleState, previous: previousState });
       previousState = IdleState;
     });
-};
-
-function refreshSettingsInterval() {
-  setInterval(function () {
-    // Refresh settings
-    ALLOWED_HOSTS = getAllowedHosts();
-    OFFLINE_ONLY_WHEN_LOCKED =  store.get('only_offline_when_locked') || false;
-    new_timeout = store.get('idle_timeout') || 15;
-
-    if (USER_IDLE_TIMEOUT != new_timeout) {
-      // Force extension reload if timeout changed.
-      window.location.reload();
-    }
-  }, 5000);
 };
 
 init();
