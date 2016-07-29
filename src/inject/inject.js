@@ -65,7 +65,7 @@ function setActiveState() {
 * Get start stop button element.
 */
 function getStatStopBtn() {
-  return document.querySelector("[ng-click=\"toggleOnline()\"]");
+  return document.querySelector("[ng-click=\"$ctrl.toggleOnline()\"]");
 };
 
 /**
